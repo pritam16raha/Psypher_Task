@@ -6,26 +6,31 @@ import { supabase } from "@/lib/supabase";
 import { Tier } from "@/types";
 import type { User } from "@clerk/nextjs/server";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const tierHierarchy: Tier[] = ["free", "silver", "gold", "platinum"];
 
 async function SubscriptionView({ user }: { user: User }) {
   let { data: profile } = await supabase
-    .from('profiles')
-    .select('tier')
-    .eq('id', user.id)
+    .from("profiles")
+    .select("tier")
+    .eq("id", user.id)
     .single();
 
   if (!profile) {
     const { data: newProfile } = await supabase
-      .from('profiles')
-      .insert({ id: user.id, email: user.emailAddresses[0]?.emailAddress, tier: 'free' })
-      .select('tier')
+      .from("profiles")
+      .insert({
+        id: user.id,
+        email: user.emailAddresses[0]?.emailAddress,
+        tier: "free",
+      })
+      .select("tier")
       .single();
     profile = newProfile;
   }
 
-  const userTier = profile?.tier as Tier || 'free';
+  const userTier = (profile?.tier as Tier) || "free";
   const userTierIndex = tierHierarchy.indexOf(userTier);
   const accessibleTiers = tierHierarchy.slice(0, userTierIndex + 1);
   const { data: events } = await supabase.from("events").select("*");
@@ -37,7 +42,8 @@ async function SubscriptionView({ user }: { user: User }) {
           Your Events
         </h2>
         <p className="mt-3 max-w-2xl mx-auto text-lg text-gray-500">
-          You are a <span className="font-bold capitalize">{userTier}</span> user. Events for your tier and below are shown.
+          You are a <span className="font-bold capitalize">{userTier}</span>{" "}
+          user. Events for your tier and below are shown.
         </p>
       </div>
       <UpgradeTier />
@@ -52,6 +58,7 @@ export default async function SubscriptionPage() {
   if (!user) {
     // This case should be handled by middleware, but it's good practice
     // to have a fallback.
+    redirect("/sign-in");
     return <div>You must be signed in to view this page.</div>;
   }
 
