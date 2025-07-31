@@ -1,5 +1,6 @@
 // src/app/page.tsx
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
+import type { User } from "@clerk/nextjs/server";
 import Header from "@/components/Header";
 import EventList from "@/components/EventList";
 import UpgradeTier from "@/components/UpgradeTier";
@@ -7,16 +8,14 @@ import { supabase } from "@/lib/supabase";
 import { Event, Tier } from "@/types";
 import Link from "next/link";
 
+// We keep this line to be safe, as it prevents other forms of caching.
 export const dynamic = 'force-dynamic';
 
 const tierHierarchy: Tier[] = ["free", "silver", "gold", "platinum"];
 
-// This is the view for LOGGED-IN users
-// This is the view for LOGGED-IN users
-async function LoggedInView() {
-  const user = await currentUser();
-  if (!user) return null; // Should not happen if called correctly, but good practice
-
+// --- UPDATED LoggedInView ---
+// It now accepts the user object as a prop instead of fetching it again.
+async function LoggedInView({ user }: { user: User }) {
   // Fetch the user's profile from YOUR database
   let { data: profile } = await supabase
     .from('profiles')
@@ -60,7 +59,7 @@ async function LoggedInView() {
   );
 }
 
-// This is the new view for LOGGED-OUT users
+// LoggedOutView remains the same
 function LoggedOutView() {
   return (
     <div className="text-center">
@@ -82,15 +81,17 @@ function LoggedOutView() {
   );
 }
 
-
+// --- UPDATED Home Component ---
 export default async function Home() {
-  const { userId } = await auth();
+  // We now use currentUser() here, which is more reliable.
+  const user = await currentUser();
 
   return (
     <div className="bg-gray-50 min-h-screen">
       <Header />
       <main className="container mx-auto px-4 py-20">
-        {userId ? <LoggedInView /> : <LoggedOutView />}
+        {/* The condition now checks for the 'user' object and passes it as a prop */}
+        {user ? <LoggedInView user={user} /> : <LoggedOutView />}
       </main>
     </div>
   );
