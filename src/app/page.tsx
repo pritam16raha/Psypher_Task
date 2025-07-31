@@ -5,7 +5,9 @@ import EventList from "@/components/EventList";
 import UpgradeTier from "@/components/UpgradeTier";
 import { supabase } from "@/lib/supabase";
 import { Event, Tier } from "@/types";
-import Link from "next/link"; // Import the Link component
+import Link from "next/link";
+
+export const dynamic = 'force-dynamic';
 
 const tierHierarchy: Tier[] = ["free", "silver", "gold", "platinum"];
 
