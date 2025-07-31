@@ -1,4 +1,3 @@
-// src/app/page.tsx
 import { currentUser } from "@clerk/nextjs/server";
 import type { User } from "@clerk/nextjs/server";
 import Header from "@/components/Header";
@@ -8,33 +7,23 @@ import { supabase } from "@/lib/supabase";
 import { Event, Tier } from "@/types";
 import Link from "next/link";
 
-// We keep this line to be safe, as it prevents other forms of caching.
 export const dynamic = 'force-dynamic';
 
 const tierHierarchy: Tier[] = ["free", "silver", "gold", "platinum"];
 
-// --- UPDATED LoggedInView ---
-// It now accepts the user object as a prop instead of fetching it again.
 async function LoggedInView({ user }: { user: User }) {
-  // Fetch the user's profile from YOUR database
   let { data: profile } = await supabase
     .from('profiles')
     .select('tier')
     .eq('id', user.id)
     .single();
 
-  // If no profile exists, create one on the fly (Just-in-Time Provisioning)
   if (!profile) {
-    const { data: newProfile, error } = await supabase
+    const { data: newProfile } = await supabase
       .from('profiles')
       .insert({ id: user.id, email: user.emailAddresses[0]?.emailAddress, tier: 'free' })
       .select('tier')
       .single();
-
-    if (error) {
-      console.error("Error creating profile on-the-fly:", error);
-      return <div>Error loading profile.</div>;
-    }
     profile = newProfile;
   }
 
@@ -59,7 +48,6 @@ async function LoggedInView({ user }: { user: User }) {
   );
 }
 
-// LoggedOutView remains the same
 function LoggedOutView() {
   return (
     <div className="text-center">
@@ -71,26 +59,23 @@ function LoggedOutView() {
       </p>
       <div className="mt-8 flex justify-center gap-4">
         <Link href="/sign-in" className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700">
-            Login
+          Login
         </Link>
         <Link href="/sign-up" className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300">
-            Sign Up
+          Sign Up
         </Link>
       </div>
     </div>
   );
 }
 
-// --- UPDATED Home Component ---
 export default async function Home() {
-  // We now use currentUser() here, which is more reliable.
   const user = await currentUser();
 
   return (
     <div className="bg-gray-50 min-h-screen">
       <Header />
       <main className="container mx-auto px-4 py-20">
-        {/* The condition now checks for the 'user' object and passes it as a prop */}
         {user ? <LoggedInView user={user} /> : <LoggedOutView />}
       </main>
     </div>
