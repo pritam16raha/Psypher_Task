@@ -1,6 +1,5 @@
 // src/app/subscription/page.tsx
 import EventList from "@/components/EventList";
-import Header from "@/components/Header";
 import UpgradeTier from "@/components/UpgradeTier";
 import { supabase } from "@/lib/supabase";
 import { Tier } from "@/types";
@@ -56,15 +55,12 @@ export default async function SubscriptionPage() {
   const user = await currentUser();
 
   if (!user) {
-    // This case should be handled by middleware, but it's good practice
-    // to have a fallback.
     redirect("/sign-in");
     return <div>You must be signed in to view this page.</div>;
   }
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <Header />
       <main className="container mx-auto px-4 py-20">
         <SubscriptionView user={user} />
       </main>
