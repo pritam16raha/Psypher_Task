@@ -1,10 +1,9 @@
-// src/app/actions.ts
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { Tier } from "@/types";
-import { supabase } from "@/lib/supabase"; // Import supabase client
+import { supabase } from "@/lib/supabase";
 
 export async function updateUserTier(newTier: Tier) {
   const { userId } = await auth();
@@ -14,7 +13,6 @@ export async function updateUserTier(newTier: Tier) {
   }
 
   try {
-    // Update the 'tier' in YOUR Supabase 'profiles' table
     const { error } = await supabase
       .from('profiles')
       .update({ tier: newTier })

@@ -1,8 +1,8 @@
 "use client";
-import { Event, Tier } from "@/types";
-import Image from "next/image";
-import { Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Event } from "@/types";
+import { Lock } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 const fallbackImage = "/fallback.png";
@@ -13,7 +13,6 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event, isLocked }: EventCardProps) {
-
   const [imgSrc, setImgSrc] = useState(event.image_url || fallbackImage);
 
   if (isLocked) {
@@ -23,7 +22,9 @@ export default function EventCard({ event, isLocked }: EventCardProps) {
         <div className="relative z-10 flex flex-col items-center justify-center h-full">
           <Lock className="text-gray-400 w-12 h-12 mb-4" />
           <p className="text-gray-600 font-semibold">
-            Upgrade to <span className="capitalize font-bold">{event.tier}</span> to access this event.
+            Upgrade to{" "}
+            <span className="capitalize font-bold">{event.tier}</span> to access
+            this event.
           </p>
         </div>
       </div>
@@ -45,7 +46,6 @@ export default function EventCard({ event, isLocked }: EventCardProps) {
         <Badge
           variant="outline"
           className={`absolute top-3 right-3 capitalize ${
-            // Map tierColors to Badge variants or custom colors
             event.tier === "free"
               ? "bg-green-100 text-green-800 border-green-200"
               : event.tier === "silver"

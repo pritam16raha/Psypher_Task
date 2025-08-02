@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ✨ Event Showcase
 
-## Getting Started
+A tier-based event display app built with Next.js 14, Supabase, Clerk.dev, Drizzle ORM, and Tailwind CSS. Users can authenticate, view events based on their tier, and simulate upgrades to higher tiers to unlock more exclusive events.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- 🔐 **Authentication** via Clerk.dev
+- 🗃️ **Role-based Event Filtering** using Supabase RLS
+- 📦 **PostgreSQL** + Drizzle ORM for database management
+- 💄 **Tailwind CSS** for a responsive UI
+- 🔄 **Tier Upgrade Simulation** (free → platinum)
+- 📊 Clean, minimal frontend with event card displays
+
+---
+
+## 🧱 Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Auth:** Clerk.dev
+- **DB:** Supabase (PostgreSQL)
+- **ORM:** Drizzle
+- **UI:** Tailwind CSS
+- **RLS:** Supabase Row Level Security policies
+
+---
+
+## 📂 Folder Structure
+
+/
+├── app/
+│ ├── layout.tsx
+│ ├── page.tsx
+│ └── ...
+├── components/
+│ ├── EventCard.tsx
+│ └── TierSelector.tsx
+├── db/
+│ ├── schema.ts
+│ └── drizzle.config.ts
+├── lib/
+│ └── supabase.ts
+├── public/
+│ └── data/events.json
+└── README.md
+
+yaml
+Copy
+Edit
+
+---
+
+## 🛠️ Setup Instructions
+
+### 1. 📦 Install dependencies
 
 ```bash
-npm run dev
+pnpm install
 # or
-yarn dev
-# or
+npm install
+2. 🔐 Configure environment variables
+Create a .env file at the root with the following:
+
+copy the content of .env.example into the .env
+
+3. 🧬 Database Setup
+Create the schema in Supabase:
+
+profiles table (with id, email, tier)
+
+events table (with id, title, description, tier, etc.)
+
+tier ENUM type (free, silver, gold, platinum)
+
+Seed initial data manually or use provided SQL.
+
+4. 🔐 Enable RLS and Policies
+Enable RLS on both tables and apply this policy for the events table:
+
+sql
+Copy
+Edit
+CREATE POLICY "Show Event Based on Tier"
+ON public.events
+AS PERMISSIVE
+FOR SELECT
+TO public
+USING (
+  EXISTS (
+    SELECT 1
+    FROM public.profiles
+    WHERE profiles.id = auth.uid()::text
+    AND (
+      (profiles.tier = 'platinum' AND events.tier IN ('free', 'silver', 'gold', 'platinum')) OR
+      (profiles.tier = 'gold' AND events.tier IN ('free', 'silver', 'gold')) OR
+      (profiles.tier = 'silver' AND events.tier IN ('free', 'silver')) OR
+      (profiles.tier = 'free' AND events.tier = 'free')
+    )
+  )
+);
+▶️ Running the App
+Dev Server:
+bash
+Copy
+Edit
 pnpm dev
 # or
-bun dev
-```
+npm run dev
+Open browser at http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+📌 Known Limitations
+In the provided events.json, fields like city and swot were missing, so those filters were not implemented.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+RLS requires the authenticated user to exist in the profiles table with a valid tier.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+📷 Demo
+Replace this with your deployment link or screenshots
 
-## Learn More
+📄 License
+MIT — free to use, modify and share.
 
-To learn more about Next.js, take a look at the following resources:
+📁 External Drive Link (if needed)
+Google Drive with seed SQLs and assets: [Your Drive Link Here]
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+yaml
+Copy
+Edit
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+Let me know if you want to add:
+- Screenshot section
+- Deployed URL
+- API route explanation (if any in future)
+- Drizzle migration commands
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Would you like me to generate a version with images or badges too?

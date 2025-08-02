@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Tier } from "@/types";
 import { updateUserTier } from "@/app/actions";
-
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -12,7 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { Tier } from "@/types";
+import { useState } from "react";
 
 export default function UpgradeTier() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,6 +29,7 @@ export default function UpgradeTier() {
       await updateUserTier(newTier);
     } catch (err) {
       setError("An error occurred. Please try again.");
+      console.error("Upgrade error:", err);
     } finally {
       setIsSubmitting(false);
     }
@@ -43,7 +43,9 @@ export default function UpgradeTier() {
       <h3 className="text-lg font-bold text-center">Simulate Tier Upgrade</h3>
 
       <div>
-        <Label htmlFor="tier" className="mb-2">Select Your Tier</Label>
+        <Label htmlFor="tier" className="mb-2">
+          Select Your Tier
+        </Label>
         <Select name="tier" defaultValue="gold" disabled={isSubmitting}>
           <SelectTrigger id="tier" className="w-full">
             <SelectValue placeholder="Select a tier" />

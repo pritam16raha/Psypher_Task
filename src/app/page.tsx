@@ -1,4 +1,3 @@
-// src/app/page.tsx
 import Link from "next/link";
 import { Laptop, Server, Database, ShieldCheck } from "lucide-react";
 
@@ -20,11 +19,10 @@ export default function HomePage() {
           </span>
         </h1>
         <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-700">
-          Discover exclusive, tier-based events tailored to your membership level.
-          Log in or sign up to unlock your curated experiences.
+          Discover exclusive, tier-based events tailored to your membership
+          level. Log in or sign up to unlock your curated experiences.
         </p>
 
-        {/* Action Buttons */}
         <div className="mt-12 flex justify-center gap-6">
           <Link
             href="/sign-in"
@@ -40,7 +38,6 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Tech Stack Section */}
         <section className="mt-24">
           <h2 className="text-2xl font-semibold text-gray-800 mb-8">
             Built With Modern Technologies
@@ -59,10 +56,9 @@ export default function HomePage() {
           </ul>
         </section>
       </main>
-
-      {/* Optional subtle footer note */}
       <footer className="mt-auto py-6 text-center text-sm text-gray-500 select-none">
-        &copy; {new Date().getFullYear()} Psypher Event Showcase — Crafted with care 💫
+        &copy; {new Date().getFullYear()} Psypher Event Showcase — Crafted with
+        care 💫
       </footer>
     </div>
   );
