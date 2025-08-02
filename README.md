@@ -4,6 +4,27 @@ A tier-based event display app built with Next.js 14, Supabase, Clerk.dev, Drizz
 
 ---
 
+## 🚀 Live Demo
+
+👉 [https://vercel.com/pritam16rahas-projects/psypher-task-j2iz](https://vercel.com/pritam16rahas-projects/psypher-task-j2iz)
+
+## ⚙️ Getting Started
+
+```bash
+# 1. Clone this repo
+$ git clone https://github.com/pritam16raha/Psypher_Task.git
+
+# 2. Install dependencies
+$ cd ai-resume-builder && npm install
+
+# 3. Add environment variables
+$ cp .env.example .env.local
+# Fill in Supabase keys, Gemini API key, JWT secret, etc.
+
+# 4. Run locally
+$ npm run dev
+```
+
 ## 🚀 Features
 
 - 🔐 **Authentication** via Clerk.dev
@@ -28,7 +49,8 @@ A tier-based event display app built with Next.js 14, Supabase, Clerk.dev, Drizz
 
 ## 📂 Folder Structure
 
-/
+```
+/src
 ├── app/
 │ ├── layout.tsx
 │ ├── page.tsx
@@ -36,18 +58,12 @@ A tier-based event display app built with Next.js 14, Supabase, Clerk.dev, Drizz
 ├── components/
 │ ├── EventCard.tsx
 │ └── TierSelector.tsx
-├── db/
-│ ├── schema.ts
-│ └── drizzle.config.ts
 ├── lib/
 │ └── supabase.ts
 ├── public/
 │ └── data/events.json
 └── README.md
-
-yaml
-Copy
-Edit
+```
 
 ---
 
