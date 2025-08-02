@@ -1,4 +1,3 @@
-// src/app/subscription/page.tsx
 import EventList from "@/components/EventList";
 import UpgradeTier from "@/components/UpgradeTier";
 import { supabase } from "@/lib/supabase";

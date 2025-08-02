@@ -43,9 +43,9 @@ export default function UpgradeTier() {
       <h3 className="text-lg font-bold text-center">Simulate Tier Upgrade</h3>
 
       <div>
-        <Label htmlFor="tier">Select Tier</Label>
+        <Label htmlFor="tier" className="mb-2">Select Your Tier</Label>
         <Select name="tier" defaultValue="gold" disabled={isSubmitting}>
-          <SelectTrigger id="tier">
+          <SelectTrigger id="tier" className="w-full">
             <SelectValue placeholder="Select a tier" />
           </SelectTrigger>
           <SelectContent>

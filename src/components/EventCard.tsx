@@ -1,14 +1,11 @@
+"use client";
 import { Event, Tier } from "@/types";
 import Image from "next/image";
 import { Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
-const tierColors: Record<Tier, string> = {
-  free: "bg-green-100 text-green-800 border border-green-200",
-  silver: "bg-gray-200 text-gray-800 border border-gray-300",
-  gold: "bg-yellow-100 text-yellow-800 border border-yellow-200",
-  platinum: "bg-slate-200 text-slate-800 border border-slate-300",
-};
+const fallbackImage = "/fallback.png";
 
 interface EventCardProps {
   event: Event;
@@ -16,6 +13,9 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event, isLocked }: EventCardProps) {
+
+  const [imgSrc, setImgSrc] = useState(event.image_url || fallbackImage);
+
   if (isLocked) {
     return (
       <div className="relative border rounded-xl bg-gray-100 p-5 text-center shadow-sm">
@@ -34,12 +34,13 @@ export default function EventCard({ event, isLocked }: EventCardProps) {
     <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out border">
       <div className="relative">
         <Image
-          src={event.image_url}
+          src={imgSrc}
           alt={event.title}
           width={600}
           height={400}
           className="w-full h-48 object-cover"
           unoptimized
+          onError={() => setImgSrc(fallbackImage)}
         />
         <Badge
           variant="outline"
