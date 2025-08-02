@@ -109,19 +109,10 @@ pnpm dev
 npm run dev
 Open browser at http://localhost:3000
 
-📌 Known Limitations
-In the provided events.json, fields like city and swot were missing, so those filters were not implemented.
-
 RLS requires the authenticated user to exist in the profiles table with a valid tier.
-
-📷 Demo
-Replace this with your deployment link or screenshots
 
 📄 License
 MIT — free to use, modify and share.
-
-📁 External Drive Link (if needed)
-Google Drive with seed SQLs and assets: [Your Drive Link Here]
 
 yaml
 Copy
