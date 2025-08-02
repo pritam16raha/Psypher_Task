@@ -114,16 +114,11 @@ RLS requires the authenticated user to exist in the profiles table with a valid 
 📄 License
 MIT — free to use, modify and share.
 
-yaml
-Copy
-Edit
+5. Supabase Account Details:
+email: 16pritamraha@gmail.com
+password: Pritam@551175
 
----
+Organization_name: Assignments
+Project_name: psypher-events
 
-Let me know if you want to add:
-- Screenshot section
-- Deployed URL
-- API route explanation (if any in future)
-- Drizzle migration commands
-
-Would you like me to generate a version with images or badges too?
+#from the SQL Editor I have added all the demo data and RLS policies.

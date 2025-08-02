@@ -46,7 +46,7 @@ export default function UpgradeTier() {
         <Label htmlFor="tier" className="mb-2">
           Select Your Tier
         </Label>
-        <Select name="tier" defaultValue="gold" disabled={isSubmitting}>
+        <Select name="tier" defaultValue="free" disabled={isSubmitting}>
           <SelectTrigger id="tier" className="w-full">
             <SelectValue placeholder="Select a tier" />
           </SelectTrigger>
